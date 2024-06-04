@@ -9,7 +9,7 @@ spring:
       max-request-size: 20MB # HTTP\u6574\u4E2A\u8BF7\u6C42\u4F53\u79EF\u6700\u5927\u3010\u4E0D\u80FD\u8D85\u8FC720MB\u3011
     # \u6570\u636E\u5E93\u8FDE\u63A5\u6C60\u914D\u7F6E
     datasource:
-      type: com.alibaba.druid.pool.DruidDataSource # \u6570\u636E\u5E93\u8FDE\u63A5\u6C60\u7684\u5B9E\u73B0\u7C7B
+      # type: com.alibaba.druid.pool.DruidDataSource # \u6570\u636E\u5E93\u8FDE\u63A5\u6C60\u7684\u5B9E\u73B0\u7C7B
       druid:
         driver-class-name: com.mysql.cj.jdbc.Driver # \u6570\u636E\u5E93\u9A71\u52A8
         url: jdbc:mysql://localhost:8066/his?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai # \u6570\u636E\u5E93\u8FDE\u63A5\u5730\u5740
@@ -36,3 +36,4 @@ server:
   port: 7700 # jetty\u542F\u52A8\u7684\u7AEF\u53E3\u53F7
   servlet:
     context-path: /his-api # web\u670D\u52A1\u7684\u76F8\u5BF9\u8DEF\u5F84
+
