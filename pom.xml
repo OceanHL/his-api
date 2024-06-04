@@ -15,8 +15,45 @@
     <description>his-api</description>
     <properties>
         <java.version>17</java.version>
+        <springboot.version>3.3.0</springboot.version>
+        <!-- mybatis -->
+        <mybatis.springboot.starter.version>3.0.3</mybatis.springboot.starter.version>
+        <!--MySQL-->
+        <mysql.connector.j.version>8.4.0</mysql.connector.j.version>
+        <!--MySQL连接池-->
+        <druid.springboot.starter.version>1.2.22</druid.springboot.starter.version>
+        <!--工具类-->
+        <hutool.all.version>5.8.27</hutool.all.version>
+        <!--HTTP状态码-->
+        <httpcore.version>4.4.16</httpcore.version>
+        <!--SaToken-->
+        <sa.token.springboot.starter.version>1.38.0</sa.token.springboot.starter.version>
+        <sa.token.dao.redis.version>1.34.0</sa.token.dao.redis.version>
+        <sa.token.spring.aop.version>1.38.0</sa.token.spring.aop.version>
+        <sa.token.alone.redis.version>1.38.0</sa.token.alone.redis.version>
+        <!--对象池-->
+        <commons.pool2.version>2.12.0</commons.pool2.version>
+        <!--生成二维码图片-->
+        <core.verison>3.5.3</core.verison>
+        <!--微信支付-->
+        <payment.springboot.starter.version>1.0.20.RELEASE</payment.springboot.starter.version>
+        <!--腾讯云-->
+        <tencentcloud.sdk.java.version>4.0.11</tencentcloud.sdk.java.version>
+        <!--Minio-->
+        <minio.version>8.5.10</minio.version>
+        <commons.fileupload.version>1.5</commons.fileupload.version>
+        <okio.version>3.9.0</okio.version>
+        <!--RabbitMQ-->
+        <amqp.client.version>5.21.0</amqp.client.version>
+        <!--规则引擎-->
+        <QLExpress.version>3.3.3</QLExpress.version>
+        <!--POI-->
+        <poi.version>5.2.5</poi.version>
+        <!--腾讯云IM-->
+        <tls.sig.api.v2.version>2.0</tls.sig.api.v2.version>
     </properties>
     <dependencies>
+        <!-- springboot 相关依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
