@@ -3,7 +3,6 @@ package com.example.his.api.db.pojo;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @TableName tb_user
@@ -22,15 +21,15 @@ public class UserEntity implements Serializable {
 
     private String name;
 
-    private Object sex;
+    private String sex;
 
     private String tel;
 
     private String email;
 
-    private Date hiredate;
+    private String hiredate;
 
-    private Object role;
+    private String role;
 
     private Integer root;
 
@@ -38,7 +37,7 @@ public class UserEntity implements Serializable {
 
     private Integer status;
 
-    private Date createTime;
+    private String createTime;
 
     private static final long serialVersionUID = 1L;
 }

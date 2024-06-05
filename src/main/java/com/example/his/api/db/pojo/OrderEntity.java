@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * @TableName tb_order
@@ -39,13 +38,13 @@ public class OrderEntity implements Serializable {
 
     private Integer status;
 
-    private Date createDate;
+    private String createDate;
 
-    private Date createTime;
+    private String createTime;
 
-    private Date refundDate;
+    private String refundDate;
 
-    private Date refundTime;
+    private String refundTime;
 
     private static final long serialVersionUID = 1L;
 }

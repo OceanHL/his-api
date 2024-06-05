@@ -13,11 +13,11 @@ public class RoleEntity implements Serializable {
 
     private String roleName;
 
-    private Object permissions;
+    private String permissions;
 
     private String desc;
 
-    private Object defaultPermissions;
+    private String defaultPermissions;
 
     private Integer systemic;
 

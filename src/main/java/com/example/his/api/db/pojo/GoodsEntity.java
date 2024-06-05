@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * @TableName tb_goods
@@ -19,15 +18,15 @@ public class GoodsEntity implements Serializable {
 
     private String description;
 
-    private Object checkup1;
+    private String checkup1;
 
-    private Object checkup2;
+    private String checkup2;
 
-    private Object checkup3;
+    private String checkup3;
 
-    private Object checkup4;
+    private String checkup4;
 
-    private Object checkup;
+    private String checkup;
 
     private String image;
 
@@ -37,9 +36,9 @@ public class GoodsEntity implements Serializable {
 
     private Integer salesVolume;
 
-    private Object type;
+    private String type;
 
-    private Object tag;
+    private String tag;
 
     private Integer partId;
 
@@ -49,9 +48,9 @@ public class GoodsEntity implements Serializable {
 
     private String md5;
 
-    private Date updateTime;
+    private String updateTime;
 
-    private Date createTime;
+    private String createTime;
 
     private static final long serialVersionUID = 1L;
 }

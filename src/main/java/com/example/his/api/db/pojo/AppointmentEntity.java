@@ -3,7 +3,6 @@ package com.example.his.api.db.pojo;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @TableName tb_appointment
@@ -16,7 +15,7 @@ public class AppointmentEntity implements Serializable {
 
     private Integer orderId;
 
-    private Date date;
+    private String date;
 
     private String name;
 
@@ -24,7 +23,7 @@ public class AppointmentEntity implements Serializable {
 
     private String pid;
 
-    private Date birthday;
+    private String birthday;
 
     private String tel;
 
@@ -34,9 +33,9 @@ public class AppointmentEntity implements Serializable {
 
     private Integer status;
 
-    private Date checkinTime;
+    private String checkinTime;
 
-    private Date createTime;
+    private String createTime;
 
     private static final long serialVersionUID = 1L;
 }

@@ -3,7 +3,6 @@ package com.example.his.api.db.pojo;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @TableName tb_checkup_report
@@ -22,11 +21,11 @@ public class CheckupReportEntity implements Serializable {
 
     private String waybillCode;
 
-    private Date waybillDate;
+    private String waybillDate;
 
-    private Date date;
+    private String date;
 
-    private Date createTime;
+    private String createTime;
 
     private static final long serialVersionUID = 1L;
 }
