@@ -1,5 +1,7 @@
 package com.example.his.api.db.mapper;
 
+import java.util.Set;
+
 /**
 * @author 87647
 * @description 针对表【tb_user(用户表)】的数据库操作Mapper
@@ -7,7 +9,7 @@ package com.example.his.api.db.mapper;
 * @Entity db.pojo.UserEntity
 */
 public interface UserMapper {
-
+    public Set<String> searchUserPermissions(int userId);
 }
 
 
