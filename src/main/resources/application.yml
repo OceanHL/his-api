@@ -82,7 +82,7 @@ logging:
     # SpringBoot 日志级别
     root: info
     # MyBatis的日志级别
-    com.example.his.api.db.dao: warn
+    com.example.his.api.db.mapper: warn
   # 日志输出格式
   pattern:
     console: '%d{yyyy/MM/dd HH:mm:ss}  %-5level  [%thread]  %logger{36}  %msg%n'
