@@ -47,6 +47,12 @@ spring:
           max-wait: -1ms # 等待空闲连接对象的最大等待时间（负数代表一直等待）
           max-idle: 16
           min-idle: 8
+  # rabbitmq 消息队列配置
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: abc123456
 
 # 服务器配置
 server:
