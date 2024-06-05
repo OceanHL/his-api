@@ -2,37 +2,38 @@ spring:
   application:
     name: his-api
   servlet:
-    # \u6587\u4EF6\u4E0A\u4F20
+    # 文件上传功能
     multipart:
-      enabled: true # \u5F00\u542F\u6587\u4EF6\u4E0A\u4F20\u529F\u80FD
-      max-file-size: 20MB # \u5355\u4E2A\u6587\u4EF6\u7684\u6700\u5927\u4F53\u79EF\u3010\u4E0D\u80FD\u8D85\u8FC720MB\u3011
-      max-request-size: 20MB # HTTP\u6574\u4E2A\u8BF7\u6C42\u4F53\u79EF\u6700\u5927\u3010\u4E0D\u80FD\u8D85\u8FC720MB\u3011
-    # \u6570\u636E\u5E93\u8FDE\u63A5\u6C60\u914D\u7F6E
-    datasource:
-      type: com.alibaba.druid.pool.DruidDataSource # \u6570\u636E\u5E93\u8FDE\u63A5\u6C60\u7684\u5B9E\u73B0\u7C7B
-      druid:
-        driver-class-name: com.mysql.cj.jdbc.Driver # \u6570\u636E\u5E93\u9A71\u52A8
-        url: jdbc:mysql://localhost:8066/his?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai # \u6570\u636E\u5E93\u8FDE\u63A5\u5730\u5740
-        username: root
-        password: abc123456
-        initial-size: 8 # \u521D\u59CB\u7684\u8FDE\u63A5\u6C60\u6570\u91CF\uFF08\u5EFA\u8BAE\uFF1ACPU\u5185\u6838\u76841-2\u500D\uFF09
-        max-active: 16 # \u6700\u5927\u8FDE\u63A5\u6570\uFF08\u5EFA\u8BAE\uFF1A\u521D\u59CB\u8FDE\u63A5\u6570\u76841\u500D\uFF09
-        min-idle: 8 # \u6700\u5C0F\u5197\u4F59\u8FDE\u63A5\u6570\uFF08\u5EFA\u8BAE\uFF1A\u4E0E\u521D\u59CB\u8FDE\u63A5\u6570\u4FDD\u6301\u4E00\u81F4\uFF09
-        max-wait: 60000 # \u6700\u5927\u7B49\u5F85\u8FDE\u63A5\u7684\u7A7A\u95F2\u65F6\u95F4
-        test-while-idle: true # \u8BA9\u6570\u636E\u5E93\u8FDE\u63A5\u6C60\u65F6\u4E0D\u65F6\u53BB\u76D1\u6D4B\u7A7A\u95F2\u8FDE\u63A5\u5BF9\u8C61\u662F\u5426\u6709\u6548\uFF0C\u82E5\u65E0\u6548\u5219\u9500\u6BC1
-        test-on-borrow: true # \u76D1\u6D4B\u8FDE\u63A5\u662F\u5426\u6709\u6548
-        test-on-return: false # \u76D1\u6D4B\u5F52\u8FD8\u7684\u8FDE\u63A5\u5BF9\u8C61\u662F\u5426\u6709\u6548\uFF08\u4F7F\u7528\u65F6\u76D1\u6D4B\u5C31\u884C\uFF0C\u5F52\u8FD8\u65F6\u53EF\u4E0D\u8FDB\u884C\u76D1\u6D4B\uFF09
-        validation-query: SELECT 1 # \u7528\u4E8E\u76D1\u6D4B\u662F\u5426\u6709\u6548\u7684SQL\u8BED\u53E5\uFF0C\u53EF\u4EE5\u81EA\u5DF1\u89C4\u5B9A
+      enabled: true # 开启文件上传功能
+      max-file-size: 20MB # 单个文件的最大体积【不能超过20MB】
+      max-request-size: 20MB # HTTP整个请求体积最大【不能超过20MB】
+  # druid数据库（mysql）连接池配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource # 数据库连接池的实现类
+    # url 属性必须放在这里，否则启动失败
+    url: jdbc:mysql://localhost:8066/his?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai # 数据库连接地址
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver # 数据库驱动
+      username: root
+      password: abc123456
+      initial-size: 8 # 初始的连接池数量（建议：CPU内核的1-2倍）
+      max-active: 16 # 最大连接数（建议：初始连接数的1倍）
+      min-idle: 8 # 最小冗余连接数（建议：与初始连接数保持一致）
+      max-wait: 60000 # 最大等待连接的空闲时间
+      test-while-idle: true # 让数据库连接池时不时去监测空闲连接对象是否有效，若无效则销毁
+      test-on-borrow: true # 监测连接是否有效
+      test-on-return: false # 监测归还的连接对象是否有效（使用时监测就行，归还时可不进行监测）
+      validation-query: SELECT 1 # 用于监测是否有效的SQL语句，可以自己规定
 
-# \u670D\u52A1\u5668\u914D\u7F6E
+# 服务器配置
 server:
   jetty:
-    threads: # \u7EBF\u7A0B\u6C60\u914D\u7F6E
-      acceptors: 4 # acceptors\u7EBF\u7A0B\u6C60\uFF0C\u7528\u4E8E\u63A5\u53D7http\u8BF7\u6C42\u7684\u7EBF\u7A0B\u6570\u3010\u5185\u6838\u4E2A\u6570\u76841\u52302\u500D\u3011
-      selectors: 8 # selectors\u7EBF\u7A0B\u6C60\u5904\u7406HTTP\u6570\u636E\u5305\u7684\u7EBF\u7A0B\u6570\u3010\u8BBE\u7F6E\u4E3A acceptors \u76842\u4E24\u500D\u3011
-      # worker \u7EBF\u7A0B\u6C60\u8D1F\u8D23\u8C03\u7528web\u65B9\u6CD5
-      min: 8 # \u6700\u5C11\u7EBF\u7A0B\u6570
-      max: 200 # \u6700\u5927\u7EBF\u7A0B\u6570
-  port: 7700 # jetty\u542F\u52A8\u7684\u7AEF\u53E3\u53F7
+    threads: # 线程池配置
+      acceptors: 4 # acceptors线程池，用于接受http请求的线程数【内核个数的1到2倍】
+      selectors: 8 # selectors线程池处理HTTP数据包的线程数【设置为 acceptors 的2两倍】
+      # worker 线程池负责调用web方法
+      min: 8 # 最少线程数
+      max: 200 # 最大线程数
+  port: 7700 # jetty启动的端口号
   servlet:
-    context-path: /his-api # web\u670D\u52A1\u7684\u76F8\u5BF9\u8DEF\u5F84
+    context-path: /his-api # web服务的相对路径
