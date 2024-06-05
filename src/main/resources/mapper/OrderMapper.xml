@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="db.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="db.pojo.OrderEntity">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="customerId" column="customer_id" jdbcType="INTEGER"/>
+            <result property="goodsId" column="goods_id" jdbcType="INTEGER"/>
+            <result property="snapshotId" column="snapshot_id" jdbcType="VARCHAR"/>
+            <result property="goodsTitle" column="goods_title" jdbcType="VARCHAR"/>
+            <result property="goodsPrice" column="goods_price" jdbcType="DECIMAL"/>
+            <result property="number" column="number" jdbcType="INTEGER"/>
+            <result property="amount" column="amount" jdbcType="DECIMAL"/>
+            <result property="goodsImage" column="goods_image" jdbcType="VARCHAR"/>
+            <result property="goodsDescription" column="goods_description" jdbcType="VARCHAR"/>
+            <result property="outTradeNo" column="out_trade_no" jdbcType="CHAR"/>
+            <result property="transactionId" column="transaction_id" jdbcType="CHAR"/>
+            <result property="outRefundNo" column="out_refund_no" jdbcType="CHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="createDate" column="create_date" jdbcType="DATE"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="refundDate" column="refund_date" jdbcType="DATE"/>
+            <result property="refundTime" column="refund_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,customer_id,goods_id,
+        snapshot_id,goods_title,goods_price,
+        number,amount,goods_image,
+        goods_description,out_trade_no,transaction_id,
+        out_refund_no,status,create_date,
+        create_time,refund_date,refund_time
+    </sql>
+</mapper>

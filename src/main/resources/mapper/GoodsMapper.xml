@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="db.mapper.GoodsMapper">
+
+    <resultMap id="BaseResultMap" type="db.pojo.GoodsEntity">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="checkup1" column="checkup_1" jdbcType="OTHER"/>
+            <result property="checkup2" column="checkup_2" jdbcType="OTHER"/>
+            <result property="checkup3" column="checkup_3" jdbcType="OTHER"/>
+            <result property="checkup4" column="checkup_4" jdbcType="OTHER"/>
+            <result property="checkup" column="checkup" jdbcType="OTHER"/>
+            <result property="image" column="image" jdbcType="VARCHAR"/>
+            <result property="initialPrice" column="initial_price" jdbcType="DECIMAL"/>
+            <result property="currentPrice" column="current_price" jdbcType="DECIMAL"/>
+            <result property="salesVolume" column="sales_volume" jdbcType="INTEGER"/>
+            <result property="type" column="type" jdbcType="OTHER"/>
+            <result property="tag" column="tag" jdbcType="OTHER"/>
+            <result property="partId" column="part_id" jdbcType="TINYINT"/>
+            <result property="ruleId" column="rule_id" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="md5" column="md5" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,code,title,
+        description,checkup_1,checkup_2,
+        checkup_3,checkup_4,checkup,
+        image,initial_price,current_price,
+        sales_volume,type,tag,
+        part_id,rule_id,status,
+        md5,update_time,create_time
+    </sql>
+</mapper>

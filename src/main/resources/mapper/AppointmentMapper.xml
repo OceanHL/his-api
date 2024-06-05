@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="db.mapper.AppointmentMapper">
+
+    <resultMap id="BaseResultMap" type="db.pojo.AppointmentEntity">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="uuid" column="uuid" jdbcType="CHAR"/>
+            <result property="orderId" column="order_id" jdbcType="INTEGER"/>
+            <result property="date" column="date" jdbcType="DATE"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="sex" column="sex" jdbcType="CHAR"/>
+            <result property="pid" column="pid" jdbcType="CHAR"/>
+            <result property="birthday" column="birthday" jdbcType="DATE"/>
+            <result property="tel" column="tel" jdbcType="CHAR"/>
+            <result property="mailingAddress" column="mailing_address" jdbcType="VARCHAR"/>
+            <result property="company" column="company" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="checkinTime" column="checkin_time" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,uuid,order_id,
+        date,name,sex,
+        pid,birthday,tel,
+        mailing_address,company,status,
+        checkin_time,create_time
+    </sql>
+</mapper>

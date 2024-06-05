@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="db.mapper.FlowRegulationMapper">
+
+    <resultMap id="BaseResultMap" type="db.pojo.FlowRegulationEntity">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="place" column="place" jdbcType="VARCHAR"/>
+            <result property="realNum" column="real_num" jdbcType="INTEGER"/>
+            <result property="maxNum" column="max_num" jdbcType="INTEGER"/>
+            <result property="weight" column="weight" jdbcType="TINYINT"/>
+            <result property="priority" column="priority" jdbcType="TINYINT"/>
+            <result property="blueUuid" column="blue_uuid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,place,real_num,
+        max_num,weight,priority,
+        blue_uuid
+    </sql>
+</mapper>

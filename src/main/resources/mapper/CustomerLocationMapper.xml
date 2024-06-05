@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="db.mapper.CustomerLocationMapper">
+
+    <resultMap id="BaseResultMap" type="db.pojo.CustomerLocationEntity">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="customerId" column="customer_id" jdbcType="INTEGER"/>
+            <result property="blueUuid" column="blue_uuid" jdbcType="VARCHAR"/>
+            <result property="placeId" column="place_id" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,customer_id,blue_uuid,
+        place_id,create_time
+    </sql>
+</mapper>
