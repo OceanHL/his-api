@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="db.mapper.FlowRegulationMapper">
+<mapper namespace="com.example.his.api.db.mapper.FlowRegulationMapper">
 
-    <resultMap id="BaseResultMap" type="db.pojo.FlowRegulationEntity">
+    <resultMap id="BaseResultMap" type="com.example.his.api.db.pojo.FlowRegulationEntity">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="place" column="place" jdbcType="VARCHAR"/>
             <result property="realNum" column="real_num" jdbcType="INTEGER"/>

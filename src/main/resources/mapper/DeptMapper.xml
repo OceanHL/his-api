@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="db.mapper.DeptMapper">
+<mapper namespace="com.example.his.api.db.mapper.DeptMapper">
 
-    <resultMap id="BaseResultMap" type="db.pojo.DeptEntity">
+    <resultMap id="BaseResultMap" type="com.example.his.api.db.pojo.DeptEntity">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="deptName" column="dept_name" jdbcType="VARCHAR"/>
             <result property="tel" column="tel" jdbcType="VARCHAR"/>
