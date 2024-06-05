@@ -66,3 +66,23 @@ server:
   port: 7700 # jetty启动的端口号
   servlet:
     context-path: /his-api # web服务的相对路径
+
+# mybatis 配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml # Mapper映射文件的位置
+  type-aliases-package: com.example.his.api.db.pojo # pojo的路径
+  configuration:
+    # 输出执行的SQL语句
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true # 支持驼峰命名法
+
+# 日志配置
+logging:
+  level:
+    # SpringBoot 日志级别
+    root: info
+    # MyBatis的日志级别
+    com.example.his.api.db.dao: warn
+  # 日志输出格式
+  pattern:
+    console: '%d{yyyy/MM/dd HH:mm:ss}  %-5level  [%thread]  %logger{36}  %msg%n'
