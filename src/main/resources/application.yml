@@ -24,6 +24,16 @@ spring:
       test-on-borrow: true # 监测连接是否有效
       test-on-return: false # 监测归还的连接对象是否有效（使用时监测就行，归还时可不进行监测）
       validation-query: SELECT 1 # 用于监测是否有效的SQL语句，可以自己规定
+  # 配置mongodb
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: his # 逻辑库名
+      # admin 是 MongoDB 用于验证用户身份的逻辑库
+      authentication-database: admin
+      username: admin
+      password: abc123456
 
 # 服务器配置
 server:
