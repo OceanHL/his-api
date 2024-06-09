@@ -54,6 +54,11 @@ spring:
     port: 5672
     username: admin
     password: abc123456
+  # SpringCache 二级缓存
+  cache:
+    redis:
+      time-to-live: 2592000000
+    type: redis
 
 # 服务器配置
 server:
