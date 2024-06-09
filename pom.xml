@@ -169,6 +169,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
+
+        <!--后端验证-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!--微信支付-->
+        <dependency>
+            <groupId>cn.felord</groupId>
+            <artifactId>payment-spring-boot-starter</artifactId>
+            <version>${payment.springboot.starter.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
