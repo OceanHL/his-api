@@ -72,6 +72,13 @@ server:
   port: 7700 # jetty启动的端口号
   servlet:
     context-path: /his-api # web服务的相对路径
+  # 配置https
+  ssl:
+    enabled: true # 开启https协议
+    key-store-type: PKCS12 # 数字证书格式
+    key-store: classpath:keystore.p12 # 数字证书文件
+    key-store-password: abc123456 # 访问数字证书时的口令密码
+    key-alias: jetty # 给这个数字证书起一个别名为 jetty
 
 # mybatis 配置
 mybatis:
