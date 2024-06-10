@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @Version 1.0
  */
 @RestController // 所有web方法返回结果都是JSON格式
-@RequestMapping("/test")
+@RequestMapping("/test-xss")
 public class TestXSS {
     @PostMapping("/demo")
     public HashMap demo(String str ) {
