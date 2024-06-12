@@ -9,13 +9,12 @@ spring:
       max-request-size: 20MB # HTTP整个请求体积最大【不能超过20MB】
   # druid数据库（mysql）连接池配置
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource # 数据库连接池的实现类
-    # url 属性必须放在这里，否则启动失败
+    type: com.alibaba.druid.pool.DruidDataSource		# Druid连接池！
     url: jdbc:mysql://localhost:8066/his?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai # 数据库连接地址
+    driver-class-name: com.mysql.cj.jdbc.Driver # 数据库驱动
+    username: root
+    password: abc123456
     druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver # 数据库驱动
-      username: root
-      password: abc123456
       initial-size: 8 # 初始的连接池数量（建议：CPU内核的1-2倍）
       max-active: 16 # 最大连接数（建议：初始连接数的1倍）
       min-idle: 8 # 最小冗余连接数（建议：与初始连接数保持一致）
