@@ -1,5 +1,6 @@
 package com.example.his.api.db.mapper;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -10,6 +11,8 @@ import java.util.Set;
 */
 public interface UserMapper {
     public Set<String> searchUserPermissions(int userId);
+
+    public Integer login(Map param);
 }
 
 
