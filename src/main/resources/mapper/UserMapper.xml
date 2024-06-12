@@ -30,13 +30,27 @@
         dept_id,status,create_time
     </sql>
 
-    <!-- 通过用户id查询用户权限 -->
+    <!-- 通过用户id查询用户权限json列表 -->
     <select id="searchUserPermissions" parameterType="int" resultType="String">
+        -- DISTINCT 用于去除重复数据
         SELECT DISTINCT p.permission_name
         FROM tb_user u
                  JOIN tb_role r ON JSON_CONTAINS(u.role, CAST(r.id AS CHAR))
                  JOIN tb_permission p ON JSON_CONTAINS(r.permissions, CAST(p.id AS CHAR))
-        WHERE u.id = #{userId} AND u.status = 1;
+        WHERE u.id = #{userId} AND u.status = 1
+    </select>
+
+    <!--
+        登陆系统查询
+        1. parameterType类型为Map，是因为Form对象利用工具方法只能转换为Map
+        2. resultType类型为Integer，是因为有可能返回null，而int无法保存空值
+    -->
+    <select id="login" parameterType="Map" resultType="Integer">
+        SELECT id
+        FROM tb_user
+        WHERE username = #{username}
+          AND password = #{password}
+        LIMIT 1 -- 查询到1条匹配的数据后，就不用再去搜索后续数据了，减少SQL语句执行时间
     </select>
 
 </mapper>
