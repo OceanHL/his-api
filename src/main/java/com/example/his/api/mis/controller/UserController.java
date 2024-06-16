@@ -8,10 +8,7 @@ import com.example.his.api.mis.controller.form.LoginForm;
 import com.example.his.api.mis.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -63,5 +60,14 @@ public class UserController {
 //        result.put("permissions", permissions);
 //        return R.ok().put("data", result);
         return R.ok().put("result", true).put("token", token).put("permissions", permissions);
+    }
+
+    @GetMapping("/logout")
+    public R logout() {
+        // 从令牌中解密出来userId
+        final int userid = StpUtil.getLoginIdAsInt();
+        // 销毁web端的令牌
+        StpUtil.logout(userid, "Web");
+        return R.ok();
     }
 }
