@@ -1,5 +1,7 @@
 package com.example.his.api.db.mapper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,6 +24,20 @@ public interface UserMapper {
      * @return 更新条数，若为1则修改成功
      */
     public int updatePassword(Map param);
+
+    /**
+     * 通过分页查询用户信息列表
+     * @param param
+     * @return
+     */
+    public ArrayList<HashMap> searchByPage(Map param);
+
+    /**
+     * 通过条件查询用户数量
+     * @param param
+     * @return
+     */
+    public long searchCount(Map param);
 }
 
 

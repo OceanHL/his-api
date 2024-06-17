@@ -67,4 +67,107 @@
             WHERE id = #{userId}
             AND password = #{password} -- 旧密码
     </update>
+
+    <!-- 分页查询用户信息 -->
+    <select id="searchByPage" parameterType="Map" resultType="HashMap">
+        /*!mycat: sql=
+        SELECT DISTINCT u.id
+               u.name,
+               u.sex,
+               u.tel,
+               u.email,
+               d.dept_name AS dept, -- 部门名称
+               u.hiredate,
+               u.root,
+               u.status,
+               (
+                    SELECT GROUP_CONCAT(role_name SEPARATOR '、')
+                    FROM tb_role
+                    WHERE JSON_CONTAINS(u.role, CONVERT(id, CHAR))
+               ) AS roles -- 角色名称
+        FROM tb_user u
+        JOIN tb_role r ON JSON_CONTAINS(u.role, CONVERT(r.id, CHAR))
+        LEFT JOIN tb_dept d ON u.dept_id = d.id -- 通过部门id查询部门名称，进行左连接
+        WHERE 1=1
+            <if test="name != null">
+                AND u.name LIKE "%${name}%"
+            </if>
+            <if test="sex != null">
+                AND u.sex = #{sex}
+            </if>
+            <if test="role != null">
+                AND r.role_name = #{role}
+            </if>
+            <if test="deptId != null">
+                AND d.id = #{deptId}
+            </if>
+            <if test="status != null">
+                AND u.status = #{status}
+            </if>
+        ORDER BY u.id ASC -- 对u.id字段进行升序
+        LIMIT #{start}, #{length} -- 分页查询，从 start 开始，查询 length 条
+        */
+        SELECT DISTINCT u.id
+               u.name,
+               u.sex,
+               u.tel,
+               u.email,
+               d.dept_name AS dept, -- 部门名称
+               u.hiredate,
+               u.root,
+               u.status,
+               (
+                   SELECT GROUP_CONCAT(role_name SEPARATOR '、')
+                   FROM tb_role
+                   WHERE JSON_CONTAINS(u.role, CONVERT(id, CHAR))
+               ) AS roles -- 角色名称
+        FROM tb_user u
+        JOIN tb_role r ON JSON_CONTAINS(u.role, CONVERT(r.id, CHAR))
+        LEFT JOIN tb_dept d ON u.dept_id = d.id -- 通过部门id查询部门名称，进行左连接
+        <where>
+            <if test="name != null">
+                AND u.name LIKE "%${name}%"
+            </if>
+            <if test="sex != null">
+                AND u.sex = #{sex}
+            </if>
+            <if test="role != null">
+                AND r.role_name = #{role}
+            </if>
+            <if test="deptId != null">
+                AND d.id = #{deptId}
+            </if>
+            <if test="status != null">
+                AND u.status = #{status}
+            </if>
+        </where>
+        ORDER BY u.id ASC -- 对u.id字段进行升序
+        LIMIT #{start}, #{length} -- 分页查询，从 start 开始，查询 length 条
+    </select>
+
+    <!-- 查询用户数量 -->
+    <select id="searchCount" parameterType="Map" resultType="long">
+        SELECT COUNT(1)
+        FROM (
+            SELECT DISTINCT u.id
+            FROM tb_user u
+            JOIN tb_role r ON JSON_CONTAINS(u.role, CONVERT(r.id, CHAR))
+            <where>
+                <if test="name != null">AND u.name LIKE "%${name}%"
+                </if>
+                <if test="sex != null">
+                    AND u.sex = #{sex}
+                </if>
+                <if test="role != null">
+                    AND r.role_name = #{role}
+                </if>
+                <if test="deptId != null">
+                    AND u.dept_id = #{deptId}
+                </if>
+                <if test="status != null">
+                    AND u.status = #{status}
+                </if>
+            </where>
+        ) AS temp
+    </select>
 </mapper>
