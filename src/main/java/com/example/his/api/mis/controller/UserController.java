@@ -1,15 +1,18 @@
 package com.example.his.api.mis.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.druid.stat.DruidStatManagerFacade;
 import com.example.his.api.common.R;
 import com.example.his.api.mis.controller.form.LoginForm;
+import com.example.his.api.mis.controller.form.UpdatePasswordForm;
 import com.example.his.api.mis.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,11 +66,27 @@ public class UserController {
     }
 
     @GetMapping("/logout")
+    @SaCheckLogin
     public R logout() {
         // 从令牌中解密出来userId
         final int userid = StpUtil.getLoginIdAsInt();
         // 销毁web端的令牌
         StpUtil.logout(userid, "Web");
         return R.ok();
+    }
+
+    @PostMapping("/updatePassword")
+    @SaCheckLogin // 只有登录后才能修改密码
+    public R updatePassword(@RequestBody @Valid UpdatePasswordForm form) {
+        // 从令牌中获取 userId
+        final int userId = StpUtil.getLoginIdAsInt();
+        final HashMap<String, Object> param = new HashMap<>() {{
+            put("userId", userId);
+            put("password", form.getPassword());
+            put("newPassword", form.getNewPassword());
+        }};
+
+        final int rows = userService.updatePassword(param);
+        return R.ok().put("rows", rows);
     }
 }

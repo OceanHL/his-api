@@ -13,6 +13,15 @@ public interface UserMapper {
     public Set<String> searchUserPermissions(int userId);
 
     public Integer login(Map param);
+
+    public String searchUsernameById(int userId);
+
+    /**
+     * 更新用户密码
+     * @param param
+     * @return 更新条数，若为1则修改成功
+     */
+    public int updatePassword(Map param);
 }
 
 

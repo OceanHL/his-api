@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
         String username = MapUtil.getStr(param, "username");
         String password = MapUtil.getStr(param, "password");
         MD5 md5 = MD5.create();
+        // 将用户名生成哈希值
         String temp = md5.digestHex(username);
         // 从指定位置开始,截取指定长度的字符串，如果fromIndex为正数，则向后截取指定length长度，如果为负数，则向前截取length长度。
         String tempStart = StrUtil.subWithLength(temp, 0, 6);
@@ -40,5 +41,31 @@ public class UserServiceImpl implements UserService {
         param.replace("password", password);
         Integer userId = userMapper.login(param);
         return userId;
+    }
+
+    @Override
+    public int updatePassword(Map param) {
+        final Integer userId = MapUtil.getInt(param, "userId");
+        final String username = userMapper.searchUsernameById(userId);
+
+        final MD5 md5 = MD5.create();
+        String password = MapUtil.getStr(param, "password");
+        // 根据用户名对密码进行混淆
+        final String temp = md5.digestHex(username);
+        // 截取前6位
+        final String tempStart = StrUtil.subWithLength(temp, 0, 6);
+        // 截取后3位
+        final String tempEnd = StrUtil.subSuf(temp, temp.length() - 3);
+        // 生成加密后的密码
+        password = md5.digestHex(tempStart + password + tempEnd).toUpperCase();
+        param.replace("password", password);
+
+        // 对新密码进行加密
+        String newPassword = MapUtil.getStr(param, "newPassword");
+        newPassword = md5.digestHex(tempStart + newPassword + tempEnd).toUpperCase();
+        param.replace("newPassword", newPassword);
+
+        final int rows = userMapper.updatePassword(param);
+        return rows;
     }
 }

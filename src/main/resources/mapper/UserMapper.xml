@@ -53,4 +53,18 @@
         LIMIT 1 -- 查询到1条匹配的数据后，就不用再去搜索后续数据了，减少SQL语句执行时间
     </select>
 
+    <!-- 通过id查询username -->
+    <select id="searchUsernameById" parameterType="int" resultType="String">
+        SELECT username
+        FROM tb_user
+        WHERE id = #{userId}
+    </select>
+
+    <!--更新密码-->
+    <update id="updatePassword" parameterType="Map">
+            UPDATE tb_user
+            SET password = #{newPassword}
+            WHERE id = #{userId}
+            AND password = #{password} -- 旧密码
+    </update>
 </mapper>
