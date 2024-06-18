@@ -3,11 +3,14 @@ package com.example.his.api.mis.service.impl;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.MD5;
+import com.example.his.api.common.PageUtils;
 import com.example.his.api.db.mapper.UserMapper;
 import com.example.his.api.mis.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -67,5 +70,23 @@ public class UserServiceImpl implements UserService {
 
         final int rows = userMapper.updatePassword(param);
         return rows;
+    }
+
+    /**
+     * 通过页码查询
+     * @param param
+     * @return
+     */
+    @Override
+    public PageUtils searchByPage(Map param) {
+        ArrayList<HashMap> list = new ArrayList<>();
+        final long count = userMapper.searchCount(param);
+        if (count > 0) {
+            list = userMapper.searchByPage(param);
+        }
+        final Integer page = MapUtil.getInt(param, "page"); // 当前页码下标
+        final Integer length = MapUtil.getInt(param, "length"); // 每页多少数据
+        final PageUtils pageUtils = new PageUtils(list, count, page, length);
+        return pageUtils;
     }
 }

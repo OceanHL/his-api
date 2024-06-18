@@ -71,7 +71,7 @@
     <!-- 分页查询用户信息 -->
     <select id="searchByPage" parameterType="Map" resultType="HashMap">
         /*!mycat: sql=
-        SELECT DISTINCT u.id
+        SELECT DISTINCT u.id,
                u.name,
                u.sex,
                u.tel,
@@ -107,7 +107,7 @@
         ORDER BY u.id ASC -- 对u.id字段进行升序
         LIMIT #{start}, #{length} -- 分页查询，从 start 开始，查询 length 条
         */
-        SELECT DISTINCT u.id
+        SELECT DISTINCT u.id,
                u.name,
                u.sex,
                u.tel,

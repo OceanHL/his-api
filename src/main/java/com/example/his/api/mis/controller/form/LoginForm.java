@@ -15,6 +15,7 @@ import lombok.Data;
  */
 @Data
 public class LoginForm {
+    // @NotBlank(message = "") 只适用于 String 类型
     @NotBlank(message = "username不能为空")
     @Pattern(regexp = "^[a-zA-Z0-9]{5,50}$", message = "username内容不正确")
     private String username;
