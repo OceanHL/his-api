@@ -14,6 +14,7 @@ import com.example.his.api.mis.controller.form.UpdatePasswordForm;
 import com.example.his.api.mis.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import java.util.Map;
  * @Create 2024/6/12 19:37
  * @Version 1.0
  */
+@Slf4j
 @RestController
 @RequestMapping("/mis/user")
 public class UserController {
@@ -97,12 +99,13 @@ public class UserController {
     @PostMapping("/searchByPage")
     @SaCheckPermission(value = {"ROOT", "USER:SELECT"}, mode = SaMode.OR) // 只有拥有【ROOT】或【USER:SELECT】权限的用户才能查询
     public R searchByPage(@RequestBody @Valid SearchUserByPageForm form) {
+        log.info("form: {}", form);
         final Integer page = form.getPage();
         final Integer length = form.getLength();
         int start = (page - 1) * length; // 起始下标
         final Map param = BeanUtil.beanToMap(form);// 把Form对象转换成Map对象，因为Form对象中含有后端验证表达式，该对象仅用于web层，不适合传入到service层
         param.put("start", start);
         final PageUtils pageUtils = userService.searchByPage(param);
-        return R.ok().put("pageUtils", pageUtils);
+        return R.ok().put("page", pageUtils);
     }
 }
