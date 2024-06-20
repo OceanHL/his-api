@@ -5,9 +5,12 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.stat.DruidStatManagerFacade;
 import com.example.his.api.common.PageUtils;
 import com.example.his.api.common.R;
+import com.example.his.api.db.pojo.UserEntity;
+import com.example.his.api.mis.controller.form.InsertUserForm;
 import com.example.his.api.mis.controller.form.LoginForm;
 import com.example.his.api.mis.controller.form.SearchUserByPageForm;
 import com.example.his.api.mis.controller.form.UpdatePasswordForm;
@@ -107,5 +110,25 @@ public class UserController {
         param.put("start", start);
         final PageUtils pageUtils = userService.searchByPage(param);
         return R.ok().put("page", pageUtils);
+    }
+
+    /**
+     * 新增用户
+     * @return
+     */
+    @PostMapping("/insert")
+    @SaCheckPermission(value = {"ROOT", "USER:INSERT"}, mode = SaMode.OR)
+    public R insert(@RequestBody @Valid InsertUserForm form) {
+        log.info("InsertUserForm: {}", form);
+        // InsertUserForm 实例转化为 UserEntity 实例
+        final UserEntity user = BeanUtil.toBean(form, UserEntity.class);
+        user.setStatus(1); // 1-在职、2-离职
+        // Integer[] 转为 JSON 格式
+        // JSONUtil.parseArray(form.getRole()) 生成 JSONArray 类型
+        // 生成字符串方式1：JSONUtil.parseArray(form.getRole()).toJSONString(0) --》 0表示空格数量
+        // 生成字符串方式2：JSONUtil.parseArray(form.getRole()).toString()
+        user.setRole(JSONUtil.parseArray(form.getRole()).toString());
+        final int rows = userService.insert(user);
+        return R.ok().put("rows", rows);
     }
 }

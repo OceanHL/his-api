@@ -5,9 +5,11 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.MD5;
 import com.example.his.api.common.PageUtils;
 import com.example.his.api.db.mapper.UserMapper;
+import com.example.his.api.db.pojo.UserEntity;
 import com.example.his.api.mis.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,5 +90,24 @@ public class UserServiceImpl implements UserService {
         final Integer length = MapUtil.getInt(param, "length"); // 每页多少数据
         final PageUtils pageUtils = new PageUtils(list, count, page, length);
         return pageUtils;
+    }
+
+    /**
+     * 插入用户信息
+     * @param user
+     * @return 插入行数
+     */
+    @Override
+    @Transactional
+    public int insert(UserEntity user) {
+        // 对密码进行混淆加密
+        final MD5 md5 = MD5.create();
+        final String temp = md5.digestHex(user.getUsername());
+        final String tempStart = StrUtil.subWithLength(temp, 0, 6);
+        final String tempEnd = StrUtil.subSuf(temp, temp.length() - 3);
+        final String password = md5.digestHex(tempStart + user.getPassword() + tempEnd).toUpperCase();
+        user.setPassword(password);
+        final int rows = userMapper.insert(user);
+        return rows;
     }
 }

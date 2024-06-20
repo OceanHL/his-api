@@ -170,4 +170,29 @@
             </where>
         ) AS temp
     </select>
+
+    <!-- 插入用户数据 -->
+    <insert id="insert" parameterType="com.example.his.api.db.pojo.UserEntity">
+        INSERT INTO tb_user
+        SET username = #{username},
+            password = #{password},
+            <if test="openId != null"> -- open_id 字段是给【小程序】和【APP】用的
+                open_id = #{openId},
+            </if>
+            <if test="photo != null">
+                photo = #{photo},
+            </if>
+            name = #{name},
+            sex = #{sex},
+            tel = #{tel},
+            email = #{email},
+            hiredate = #{hiredate},
+            role = #{role},
+            root = false, -- 默认都是非 root 用户
+            <if test="deptId != null">
+                dept_id = #{deptId},
+            </if>
+            status = #{status},
+            create_time = NOW()
+    </insert>
 </mapper>

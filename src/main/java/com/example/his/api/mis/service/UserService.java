@@ -1,6 +1,7 @@
 package com.example.his.api.mis.service;
 
 import com.example.his.api.common.PageUtils;
+import com.example.his.api.db.pojo.UserEntity;
 
 import java.util.Map;
 
@@ -24,4 +25,11 @@ public interface UserService {
      * @return
      */
     public PageUtils searchByPage(Map param);
+
+    /**
+     * 插入用户信息
+     * @param user
+     * @return
+     */
+    public int insert(UserEntity user);
 }

@@ -1,5 +1,7 @@
 package com.example.his.api.db.mapper;
 
+import com.example.his.api.db.pojo.UserEntity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +40,13 @@ public interface UserMapper {
      * @return
      */
     public long searchCount(Map param);
+
+    /**
+     * 插入用户信息
+     * @param user
+     * @return
+     */
+    public int insert(UserEntity user);
 }
 
 
