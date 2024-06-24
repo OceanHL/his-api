@@ -226,4 +226,12 @@
         </foreach>
         AND root = FALSE -- 不是 root 用户
     </delete>
+    
+    <!--通过userId更改状态（1-在职、2-离职）-->
+    <update id="dismissById" parameterType="int">
+        UPDATE tb_user
+        SET status = 2
+        WHERE id = #{userId}
+            AND root = FALSE -- 不是 root 用户
+    </update>
 </mapper>

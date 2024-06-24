@@ -163,7 +163,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/update")
-    @SaCheckPermission(value = {"ROOT", "USER:SELECT"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"ROOT", "USER:UPDATE"}, mode = SaMode.OR)
     public R update(@RequestBody @Valid UpdateUserForm form) {
         log.info("update入参: {}", form);
         // Bean 转 Map
@@ -199,6 +199,20 @@ public class UserController {
         }
         R result = R.ok().put("rows", rows);
         log.info("deleteByIds响应: {}", result);
+        return result;
+    }
+
+    @PostMapping("/dismissById")
+    @SaCheckPermission(value = {"ROOT", "USER:UPDATE"}, mode = SaMode.OR)
+    public R dismissById(@RequestBody @Valid DismissForm form) {
+        log.info("dismissById入参: {}", form);
+        final int rows = userService.dismissById(form.getUserId());
+        // 更新状态成功【1-在职、2-离职】，则将该用户下线
+        if (rows > 0) {
+            // 通过 userId 将用户下辖
+            StpUtil.logout(form.getUserId().intValue());
+        }
+        final R result = R.ok().put("rows", rows);
         return result;
     }
 }

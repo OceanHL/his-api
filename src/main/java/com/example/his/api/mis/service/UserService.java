@@ -53,4 +53,11 @@ public interface UserService {
      * @return
      */
     public int deleteByIds(Integer[] ids);
+
+    /**
+     * 通过userId更改状态（1-在职、2-离职）
+     * @param userId
+     * @return
+     */
+    public int dismissById(int userId);
 }
