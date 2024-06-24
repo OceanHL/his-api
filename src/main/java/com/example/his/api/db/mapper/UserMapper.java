@@ -47,8 +47,17 @@ public interface UserMapper {
      * @return
      */
     public int insert(UserEntity user);
+
+    /**
+     * 通过userId查询用户数据
+     * @param userId
+     * @return
+     */
+    public HashMap searchById(int userId);
+
+    /**
+     * 通过userId更新用户信息
+     * @return
+     */
+    public int update(Map param);
 }
-
-
-
-

@@ -10,10 +10,7 @@ import com.alibaba.druid.stat.DruidStatManagerFacade;
 import com.example.his.api.common.PageUtils;
 import com.example.his.api.common.R;
 import com.example.his.api.db.pojo.UserEntity;
-import com.example.his.api.mis.controller.form.InsertUserForm;
-import com.example.his.api.mis.controller.form.LoginForm;
-import com.example.his.api.mis.controller.form.SearchUserByPageForm;
-import com.example.his.api.mis.controller.form.UpdatePasswordForm;
+import com.example.his.api.mis.controller.form.*;
 import com.example.his.api.mis.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -129,6 +126,38 @@ public class UserController {
         // 生成字符串方式2：JSONUtil.parseArray(form.getRole()).toString()
         user.setRole(JSONUtil.parseArray(form.getRole()).toString());
         final int rows = userService.insert(user);
+        return R.ok().put("rows", rows);
+    }
+
+    /**
+     * 通过userId查询用户数据
+     * @param form
+     * @return
+     */
+    @PostMapping("/searchById")
+    @SaCheckPermission(value = {"ROOT", "USER:SELECT"}, mode = SaMode.OR)
+    public R searchById(@RequestBody @Valid SearchUserByIdForm form) {
+        final HashMap map = userService.searchById(form.getUserId());
+        return R.ok().put("result", map);
+    }
+
+    /**
+     * 通过userId更新用户信息
+     * @return
+     */
+    @PostMapping("/update")
+    @SaCheckPermission(value = {"ROOT", "USER:SELECT"}, mode = SaMode.OR)
+    public R update(@RequestBody @Valid UpdateUserForm form) {
+        // Bean 转 Map
+        final Map param = BeanUtil.beanToMap(form);
+        // role 属性转为 JSON格式
+        param.replace("role", JSONUtil.parseArray(form.getRole()).toString());
+        final int rows = userService.update(param);
+        // 更新成功，所有端退出登录
+        if (rows == 1) {
+            // 退出该用户的【Web端、APP端、小程序端】，通过 userId 进行操作
+            StpUtil.logout(form.getUserId());
+        }
         return R.ok().put("rows", rows);
     }
 }

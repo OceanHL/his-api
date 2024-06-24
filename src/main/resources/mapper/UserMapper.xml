@@ -171,6 +171,13 @@
         ) AS temp
     </select>
 
+    <!--通过userId查询用户数据-->
+    <select id="searchById" parameterType="int" resultType="HashMap">
+        SELECT id, username, name, sex, tel, email, hiredate, role, dept_id AS deptId, status
+        FROM tb_user
+        WHERE id = #{userId}
+    </select>
+
     <!-- 插入用户数据 -->
     <insert id="insert" parameterType="com.example.his.api.db.pojo.UserEntity">
         INSERT INTO tb_user
@@ -195,4 +202,18 @@
             status = #{status},
             create_time = NOW()
     </insert>
+
+    <!-- 通过userId更新用户信息 -->
+    <update id="update" parameterType="Map">
+        UPDATE tb_user
+        SET username = #{username},
+            name = #{name},
+            sex = #{sex},
+            tel = #{tel},
+            email = #{email},
+            hiredate = #{hiredate},
+            role = #{role},
+            dept_id = #{deptId}
+        WHERE id = #{userId}
+    </update>
 </mapper>

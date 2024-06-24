@@ -110,4 +110,25 @@ public class UserServiceImpl implements UserService {
         final int rows = userMapper.insert(user);
         return rows;
     }
+
+    /**
+     * 通过userId查询用户数据
+     * @param userId
+     * @return
+     */
+    @Override
+    public HashMap searchById(int userId) {
+        final HashMap userInfo = userMapper.searchById(userId);
+        return userInfo;
+    }
+
+    /**
+     * 通过userId更新用户信息
+     * @return
+     */
+    @Override
+    public int update(Map param) {
+        final int rows = userMapper.update(param);
+        return rows;
+    }
 }
