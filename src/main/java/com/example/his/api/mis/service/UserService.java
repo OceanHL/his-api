@@ -46,4 +46,11 @@ public interface UserService {
      * @return
      */
     public int update(Map param);
+
+    /**
+     * 通过 userId 批量删除用户
+     * @param ids
+     * @return
+     */
+    public int deleteByIds(Integer[] ids);
 }

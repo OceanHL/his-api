@@ -117,7 +117,7 @@
                u.root,
                u.status,
                (
-                   SELECT GROUP_CONCAT(role_name SEPARATOR '、')
+                   SELECT GROUP_CONCAT(role_name SEPARATOR '、') -- [角色1、角色2、角色3]
                    FROM tb_role
                    WHERE JSON_CONTAINS(u.role, CONVERT(id, CHAR))
                ) AS roles -- 角色名称
@@ -216,4 +216,14 @@
             dept_id = #{deptId}
         WHERE id = #{userId}
     </update>
+
+    <!--通过 userId 批量删除用户-->
+    <delete id="deleteByIds" parameterType="Integer[]">
+        DELETE FROM tb_user
+        WHERE id IN
+        <foreach collection="array" open="(" separator="," close=")" item="one">
+            #{one}
+        </foreach>
+        AND root = FALSE -- 不是 root 用户
+    </delete>
 </mapper>

@@ -131,4 +131,16 @@ public class UserServiceImpl implements UserService {
         final int rows = userMapper.update(param);
         return rows;
     }
+
+    /**
+     * userId 批量删除用户
+     * @param ids
+     * @return
+     */
+    @Override
+    @Transactional
+    public int deleteByIds(Integer[] ids) {
+        final int rows = userMapper.deleteByIds(ids);
+        return rows;
+    }
 }

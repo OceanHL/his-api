@@ -5,6 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.stat.DruidStatManagerFacade;
 import com.example.his.api.common.PageUtils;
@@ -39,6 +40,7 @@ public class UserController {
 
     @PostMapping("/login")
     public R login(@RequestBody @Valid LoginForm form) {
+        log.info("login入参: {}", form);
         // 把Form对象转换成Map对象，因为Form对象中含有后端验证表达式，该对象仅用于web层，不适合传入到service层
         final Map<String, Object> param = BeanUtil.beanToMap(form);
 
@@ -68,22 +70,28 @@ public class UserController {
 //        result.put("token", token);
 //        result.put("permissions", permissions);
 //        return R.ok().put("data", result);
-        return R.ok().put("result", true).put("token", token).put("permissions", permissions);
+        final R result = R.ok().put("result", true).put("token", token).put("permissions", permissions);
+        log.info("login响应: {}", result);
+        return result;
     }
 
     @GetMapping("/logout")
     @SaCheckLogin
     public R logout() {
+        log.info("------logout------无入参");
         // 从令牌中解密出来userId
         final int userid = StpUtil.getLoginIdAsInt();
         // 销毁web端的令牌
         StpUtil.logout(userid, "Web");
-        return R.ok();
+        final R result = R.ok();
+        log.info("logout响应: {}", result);
+        return result;
     }
 
     @PostMapping("/updatePassword")
     @SaCheckLogin // 只有登录后才能修改密码
     public R updatePassword(@RequestBody @Valid UpdatePasswordForm form) {
+        log.info("updatePassword入参: {}", form);
         // 从令牌中获取 userId
         final int userId = StpUtil.getLoginIdAsInt();
         final HashMap<String, Object> param = new HashMap<>() {{
@@ -93,20 +101,24 @@ public class UserController {
         }};
 
         final int rows = userService.updatePassword(param);
-        return R.ok().put("rows", rows);
+        final R result = R.ok().put("rows", rows);
+        log.info("updatePassword响应: {}", result);
+        return result;
     }
 
     @PostMapping("/searchByPage")
     @SaCheckPermission(value = {"ROOT", "USER:SELECT"}, mode = SaMode.OR) // 只有拥有【ROOT】或【USER:SELECT】权限的用户才能查询
     public R searchByPage(@RequestBody @Valid SearchUserByPageForm form) {
-        log.info("form: {}", form);
+        log.info("searchByPage入参: {}", form);
         final Integer page = form.getPage();
         final Integer length = form.getLength();
         int start = (page - 1) * length; // 起始下标
         final Map param = BeanUtil.beanToMap(form);// 把Form对象转换成Map对象，因为Form对象中含有后端验证表达式，该对象仅用于web层，不适合传入到service层
         param.put("start", start);
         final PageUtils pageUtils = userService.searchByPage(param);
-        return R.ok().put("page", pageUtils);
+        final R result = R.ok().put("page", pageUtils);
+        log.info("searchByPage响应: {}", result);
+        return result;
     }
 
     /**
@@ -116,7 +128,7 @@ public class UserController {
     @PostMapping("/insert")
     @SaCheckPermission(value = {"ROOT", "USER:INSERT"}, mode = SaMode.OR)
     public R insert(@RequestBody @Valid InsertUserForm form) {
-        log.info("InsertUserForm: {}", form);
+        log.info("insert入参: {}", form);
         // InsertUserForm 实例转化为 UserEntity 实例
         final UserEntity user = BeanUtil.toBean(form, UserEntity.class);
         user.setStatus(1); // 1-在职、2-离职
@@ -126,7 +138,9 @@ public class UserController {
         // 生成字符串方式2：JSONUtil.parseArray(form.getRole()).toString()
         user.setRole(JSONUtil.parseArray(form.getRole()).toString());
         final int rows = userService.insert(user);
-        return R.ok().put("rows", rows);
+        final R result = R.ok().put("rows", rows);
+        log.info("insert响应: {}", result);
+        return result;
     }
 
     /**
@@ -137,8 +151,11 @@ public class UserController {
     @PostMapping("/searchById")
     @SaCheckPermission(value = {"ROOT", "USER:SELECT"}, mode = SaMode.OR)
     public R searchById(@RequestBody @Valid SearchUserByIdForm form) {
+        log.info("searchById入参: {}", form);
         final HashMap map = userService.searchById(form.getUserId());
-        return R.ok().put("result", map);
+        final R result = R.ok().put("result", map);
+        log.info("searchById响应: {}", result);
+        return result;
     }
 
     /**
@@ -148,6 +165,7 @@ public class UserController {
     @PostMapping("/update")
     @SaCheckPermission(value = {"ROOT", "USER:SELECT"}, mode = SaMode.OR)
     public R update(@RequestBody @Valid UpdateUserForm form) {
+        log.info("update入参: {}", form);
         // Bean 转 Map
         final Map param = BeanUtil.beanToMap(form);
         // role 属性转为 JSON格式
@@ -158,6 +176,29 @@ public class UserController {
             // 退出该用户的【Web端、APP端、小程序端】，通过 userId 进行操作
             StpUtil.logout(form.getUserId());
         }
-        return R.ok().put("rows", rows);
+        R result = R.ok().put("rows", rows);
+        log.info("update响应: {}", result);
+        return result;
+    }
+
+    @PostMapping("/deleteByIds")
+    @SaCheckPermission(value = {"ROOT", "USER:DELETE"}, mode = SaMode.OR)
+    public R deleteByIds(@RequestBody @Valid DeleteUserByIdsForm form) {
+        log.info("deleteByIds入参: {}", form);
+        final int userId = StpUtil.getLoginIdAsInt();
+        // 不能删除自己的账户
+        if (ArrayUtil.contains(form.getIds(), userId)) {
+            return R.error("您不能删除自己的账号");
+        }
+        final int rows = userService.deleteByIds(form.getIds());
+        // 通过 userId 将删除的账号进行退出操作
+        if (rows > 0) {
+            for (Integer id : form.getIds()) {
+                StpUtil.logout(id);
+            }
+        }
+        R result = R.ok().put("rows", rows);
+        log.info("deleteByIds响应: {}", result);
+        return result;
     }
 }
