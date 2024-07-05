@@ -28,13 +28,63 @@
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,code,title,
-        description,checkup_1,checkup_2,
-        checkup_3,checkup_4,checkup,
-        image,initial_price,current_price,
-        sales_volume,type,tag,
-        part_id,rule_id,status,
-        md5,update_time,create_time
-    </sql>
+    <!--分页查询商品-->
+   <select id="searchByPage" parameterType="Map" resultType="HashMap">
+       SELECT g.id,
+              g.code,
+              g.title,
+              FORMAT(g.initial_price, 0) as "initialPrice",
+              FORMAT(g.current_price, 0) as "currentPrice",
+              CASE
+                WHEN LENGTH(g.sales_volume) &lt;= 4 THEN FORMAT(g.sales_volume, 0)
+                ELSE CONCAT(
+                    FORMAT(MID(g.sales_volume, 1, LENGTH(g.sales_volume) - 4), 0, "万+")
+                )
+              END as "salesVolume",
+              g.type,
+              g.part_id AS "partId",
+              r.name AS "ruleName",
+              (g.checkup IS NOT NULL) AS "hasCheckup",
+              g.status
+       FROM tb_goods g
+       LEFT JOIN tb_rule r ON g.rule_id = r.id -- 根据 rule_id 进行【左连接（保留左边所有字段）】
+      <where>
+          <if test="keyword != null">
+               AND g.title LIKE CONCAT("%", #{keyword}, "%")
+          </if>
+          <if test="code != null">
+              AND g.code = #{code}
+          </if>
+          <if test="type != null">
+              AND g.type = #{type}
+          </if>
+          <if test="partId != null">
+              AND g.part_id = #{partId}
+          </if>
+          <if test="status != null">
+              AND g.status = #{status}
+          </if>
+      </where>
+       LIMIT #{start}, #{length}
+   </select>
+
+    <!--查询商品数量-->
+    <select id="searchCount" parameterType="Map" resultType="long">
+        SELECT COUNT(*)
+        FROM tb_goods
+        <where>
+            <if test="keyword != null">
+                AND title LIKE CONCAT("%", #{keyword}, "%")
+            </if>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
+            <if test="partId != null">
+                AND part_id = #{partId}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
 </mapper>
