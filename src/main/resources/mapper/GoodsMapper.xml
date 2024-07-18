@@ -87,4 +87,26 @@
             </if>
         </where>
     </select>
+
+    <insert id="insert" parameterType="com.example.his.api.db.pojo.GoodsEntity">
+        INSERT INTO tb_goods
+        SET code = #{code},
+            title = #{title},
+            description = #{description},
+            checkup_1 = #{checkup1},
+            checkup_2 = #{checkup2},
+            checkup_3 = #{checkup3},
+            checkup_4 = #{checkup4},
+            image = #{image},
+            initial_price = #{initialPrice},
+            current_price = #{currentPrice},
+            sales_volume = 0, -- 商品数量
+            type = #{type},
+            tag = #{tag},
+            part_id = #{partId},
+            rule_id = #{ruleId},
+            status = #{ruleId},
+            status = false, -- false下架状态
+            `md5` = #{md5}
+    </insert>
 </mapper>

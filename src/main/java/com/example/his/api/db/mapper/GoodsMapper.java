@@ -1,5 +1,7 @@
 package com.example.his.api.db.mapper;
 
+import com.example.his.api.db.pojo.GoodsEntity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,14 @@ public interface GoodsMapper {
      * @return
      */
     public long searchCount(Map param);
+
+
+    /**
+     * 插入商品信息
+     * @param entity
+     * @return
+     */
+    public int insert(GoodsEntity entity);
 }
 
 

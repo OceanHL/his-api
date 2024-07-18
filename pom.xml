@@ -189,6 +189,27 @@
             <artifactId>payment-spring-boot-starter</artifactId>
             <version>${payment.springboot.starter.version}</version>
         </dependency>
+
+        <!--Minio-->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+        </dependency>
+
+        <!-- 文件上传 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons.fileupload.version}</version>
+        </dependency>
+
+        <!-- okio 用于IO读取 -->
+        <dependency>
+            <groupId>com.squareup.okio</groupId>
+            <artifactId>okio</artifactId>
+            <version>${okio.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

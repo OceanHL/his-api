@@ -117,3 +117,14 @@ sa-token:
   is-read-cookie: false
   # 是否输出操作日志
   is-log: true
+
+# minio 配置信息
+minio:
+  # 路径地址
+  endpoint: http://localhost:9000
+  # 账号
+  access-key: root
+  # 密码
+  secret-key: abc123456
+  # 桶名
+  bucket: his
