@@ -1,6 +1,9 @@
 package com.example.his.api.mis.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.crypto.digest.MD5;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.example.his.api.common.MinioUtil;
 import com.example.his.api.common.PageUtils;
 import com.example.his.api.db.mapper.GoodsMapper;
@@ -9,6 +12,7 @@ import com.example.his.api.mis.service.GoodsService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -60,8 +64,33 @@ public class GoodsServiceImpl implements GoodsService {
         return imagePath;
     }
 
+    /**
+     * 插入商品信息
+     * @param entity
+     * @return
+     */
     @Override
+    @Transactional
     public int insert(GoodsEntity entity) {
-        return 0;
+        // 计算商品信息的MD5值
+        final String md5 = genEntityMd5(entity);
+        entity.setMd5(md5);
+        // 保存商品记录
+        final int rows = goodsMapper.insert(entity);
+        return rows;
+    }
+
+    private String genEntityMd5(GoodsEntity entity) {
+        final JSONObject json = JSONUtil.parseObj(entity);
+        // 以下内容不属于计算商品信息MD5值范畴之内
+        json.remove("id");
+        json.remove("partId");
+        json.remove("salesVolume");
+        json.remove("status");
+        json.remove("md5");
+        json.remove("updateTime");
+        json.remove("createTime");
+        final String md5 = MD5.create().digestHex(json.toString()).toUpperCase();
+        return md5;
     }
 }
