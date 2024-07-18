@@ -35,7 +35,3 @@ public interface GoodsMapper {
      */
     public int insert(GoodsEntity entity);
 }
-
-
-
-

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
+ * @author 87647
  * @TableName tb_goods
  */
 @Data
@@ -18,13 +19,13 @@ public class GoodsEntity implements Serializable {
 
     private String description;
 
-    private String checkup1;
+    private String checkup_1;
 
-    private String checkup2;
+    private String checkup_2;
 
-    private String checkup3;
+    private String checkup_3;
 
-    private String checkup4;
+    private String checkup_4;
 
     private String checkup;
 

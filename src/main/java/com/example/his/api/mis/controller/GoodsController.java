@@ -3,8 +3,12 @@ package com.example.his.api.mis.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.json.JSONUtil;
 import com.example.his.api.common.PageUtils;
 import com.example.his.api.common.R;
+import com.example.his.api.db.pojo.GoodsEntity;
+import com.example.his.api.mis.controller.form.InsertGoodsForm;
 import com.example.his.api.mis.controller.form.SearchGoodsByPageForm;
 import com.example.his.api.mis.service.GoodsService;
 import jakarta.annotation.Resource;
@@ -52,12 +56,61 @@ public class GoodsController {
     }
 
     @PostMapping("/uploadImage")
-    @SaCheckPermission(value = {"ROOT", "GOODS:INSERT", "GOODS:UPDATE"})
+    @SaCheckPermission(value = {"ROOT", "GOODS:INSERT", "GOODS:UPDATE"}, mode = SaMode.OR)
     public R uploadImage(@Param("file") MultipartFile file) {
         log.info("goods-uploadImage入参: {}", file);
         final String imagePath = goodsService.uploadImage(file);
         final R result = R.ok().put("result", imagePath);
         log.info("goods-uploadImage响应: {}", result);
+        return result;
+    }
+
+    @PostMapping("/insert")
+    @SaCheckPermission(value = {"ROOT", "GOODS:INSERT"}, mode = SaMode.OR)
+    public R insert(@RequestBody @Valid InsertGoodsForm form) {
+        /**
+         * 因为P0J0对象中的check_1、check_2、check_3和check_4是String类型，
+         * 而FORM类中的这些东西是ArrayList类型的，为了避免FORM对象转换成P0J0对象出现异常，所以要排除这四个变量。
+         */
+        final GoodsEntity entity = BeanUtil.toBean(form, GoodsEntity.class, CopyOptions.create()
+                // 设置忽略的参数
+                .setIgnoreProperties("checkup_1", "checkup_2", "checkup_3", "checkup_4", "tag"));
+
+        String temp = null;
+        if (form.getCheckup_1() != null) {
+            // 手动将ArrayList转换成JS0N数组字符串，给P0J0对象的checkup_1变量赋值
+            temp = JSONUtil.parseArray(form.getCheckup_1()).toString();
+            entity.setCheckup_1(temp);
+        }
+
+        if (form.getCheckup_2() != null) {
+            // 手动将ArrayList转换成JS0N数组字符串，给P0J0对象的checkup_2变量赋值
+            temp = JSONUtil.parseArray(form.getCheckup_2()).toString();
+            entity.setCheckup_2(temp);
+        }
+
+        if (form.getCheckup_3() != null) {
+            // 手动将ArrayList转换成JS0N数组字符串，给P0J0对象的checkup_3变量赋值
+            temp = JSONUtil.parseArray(form.getCheckup_3()).toString();
+            entity.setCheckup_3(temp);
+        }
+
+        if (form.getCheckup_4() != null) {
+            // 手动将ArrayList转换成JS0N数组字符串，给P0J0对象的checkup_1变量赋值
+            temp = JSONUtil.parseArray(form.getCheckup_4()).toString();
+            entity.setCheckup_4(temp);
+        }
+
+        if (form.getTag() != null) {
+            // 手动将ArrayList转换成JS0N数组字符串，给P0J0对象的checkup_1变量赋值
+            temp = JSONUtil.parseArray(form.getTag()).toString();
+            entity.setTag(temp);
+        }
+
+        // 插入数据库
+        final int rows = goodsService.insert(entity);
+
+        final R result = R.ok().put("rows", rows);
         return result;
     }
 }

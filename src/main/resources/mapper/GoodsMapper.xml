@@ -93,10 +93,10 @@
         SET code = #{code},
             title = #{title},
             description = #{description},
-            checkup_1 = #{checkup1},
-            checkup_2 = #{checkup2},
-            checkup_3 = #{checkup3},
-            checkup_4 = #{checkup4},
+            checkup_1 = #{checkup_1},
+            checkup_2 = #{checkup_2},
+            checkup_3 = #{checkup_3},
+            checkup_4 = #{checkup_4},
             image = #{image},
             initial_price = #{initialPrice},
             current_price = #{currentPrice},
@@ -105,8 +105,7 @@
             tag = #{tag},
             part_id = #{partId},
             rule_id = #{ruleId},
-            status = #{ruleId},
-            status = false, -- false下架状态
+            status = false, -- 1(true)-上架状态、0(false)-下架状态
             `md5` = #{md5}
     </insert>
 </mapper>

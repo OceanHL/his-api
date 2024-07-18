@@ -80,6 +80,11 @@ public class GoodsServiceImpl implements GoodsService {
         return rows;
     }
 
+    /**
+     * 计算商品信息的MD5值
+     * @param entity
+     * @return
+     */
     private String genEntityMd5(GoodsEntity entity) {
         final JSONObject json = JSONUtil.parseObj(entity);
         // 以下内容不属于计算商品信息MD5值范畴之内
